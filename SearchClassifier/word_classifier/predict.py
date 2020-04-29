@@ -14,10 +14,7 @@ def evaluate(model, line_tensor):
 
 def toPerCent(array):
     max_value = sum(array[0])
-    print(array)
-    print(max_value)
     result = [x / max_value for x in array]
-    print(result)
     return torch.as_tensor(result)
 
 
@@ -25,7 +22,6 @@ def predict(model, input_line, all_categories, n_predictions=3):
     print('\n> %s' % input_line)
     with torch.no_grad():
         output = evaluate(model, line_to_tensor(input_line))
-        print(output)
         output = toPerCent(output.numpy())
         # Get top N categories
         topv, topi = output.topk(n_predictions, 1, True)
