@@ -14,7 +14,7 @@ def evaluate(model, line_tensor):
 
 def toPerCent(array):
     max_value = sum(array[0])
-    result = [x / max_value for x in array]
+    result = [(max_value - x) / max_value for x in array]
     return torch.as_tensor(result)
 
 
