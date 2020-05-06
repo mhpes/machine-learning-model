@@ -23,6 +23,8 @@ def letter_to_tensor(letter):
 # Turn a line into a <line_length x 1 x n_letters>,
 # or an array of one-hot letter vectors
 def line_to_tensor(word):
+    # This is a chop for correcting some product that for no reason are int, double or nan, correct in future
+    word = str(word)
     tensor = torch.zeros(len(word), 1, n_letters)
     for li, letter in enumerate(word):
         tensor[li][0][letter_to_index(letter)] = 1
@@ -38,14 +40,14 @@ def unicode_to_ascii(s):
     )
 
 
-def category_from_output(all_categories, output):
+def category_from_output(categories, output):
     top_n, top_i = output.topk(1)
     category_i = top_i[0].item()
-    return all_categories[category_i], category_i
+    return categories[category_i], category_i
 
 
 def save_checkpoint(model, filepath):
-    checkpoint = { 'state_dict': model.state_dict()}
+    checkpoint = {'state_dict': model.state_dict()}
     torch.save(checkpoint, filepath)
 
 

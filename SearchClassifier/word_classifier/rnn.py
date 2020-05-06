@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 
+
 class RNN(nn.Module):
     def __init__(self, input_size, hidden_size, output_size):
         super(RNN, self).__init__()
@@ -19,5 +20,5 @@ class RNN(nn.Module):
         return output, hidden
 
     def init_hidden(self):
-        return torch.zeros(1, self.hidden_size)
+        return torch.zeros(1, self.hidden_size).to("cuda:0")
 

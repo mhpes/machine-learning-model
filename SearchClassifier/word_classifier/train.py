@@ -1,7 +1,7 @@
 import math
 import time
 
-from SearchClassifier.word_classifier.data_loader import random_training_example
+from SearchClassifier.word_classifier.data_loader import random_training_example, training_example
 from SearchClassifier.word_classifier.utils import category_from_output
 
 
@@ -40,7 +40,7 @@ def train_loop(model, criterion, categories, dataset, epochs,  learning_rate, pr
 
     for iter in range(1, epochs + 1):
         model.zero_grad()
-        category, line, category_tensor, line_tensor = random_training_example(categories, dataset)
+        category, line, category_tensor, line_tensor = training_example(categories, dataset, iter)
         output, loss = train(model, category_tensor, line_tensor, criterion, learning_rate)
         current_loss += loss
         # optimizer.step()
