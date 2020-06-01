@@ -49,17 +49,17 @@ print("Vectorizing big training", time.asctime())
 # X_train_dtm = vect.fit(X_train)
 print(X_test.head())
 print(y_test.head())
-vect = pickle.load(open("models/countVectorizer.pickel", "rb"))
+vect = pickle.load(open("api/models/countVectorizer.pickel", "rb"))
 X_test_dtm = vect.transform(X_test)
 print(X_test_dtm.shape)
 
 def predict(data):
-    big_model = joblib.load('models/model_big.pk1')
+    big_model = joblib.load('api/models/model_big.pk1')
     index = big_model.predict(data)
     del big_model
     model_predicts = []
     for i in range(N_BATCHES):
-        model_from_file = joblib.load('models/model_'+str(i)+'.pk1')
+        model_from_file = joblib.load('api/models/model_'+str(i)+'.pk1')
         model_predicts.append(model_from_file.predict(data))
         print("batch: ", i)
     predicts = []
