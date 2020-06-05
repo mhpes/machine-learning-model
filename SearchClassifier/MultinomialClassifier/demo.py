@@ -32,17 +32,9 @@ print("Data loaded", time.asctime())
 print("Splitting data", time.asctime())
 X = data['product']
 y = data['kn8']
-#print(X)
-#print(y)
 
-#print(X.head())
-#X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=float(0.99))
-#print(X_test.head())
 print("Vectorizing big training", time.asctime())
-#vect = HashingVectorizer()
-# fit and transform test data
-#print(X_train.shape)
-# X_train_dtm = vect.fit(X_train)
+
 vect = pickle.load(open("models/countVectorizer.pickel", "rb"))
 X_test_dtm = vect.transform(X)
 print(X_test_dtm.shape)

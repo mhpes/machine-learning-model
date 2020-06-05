@@ -1,0 +1,16 @@
+{
+    "name": "Model api",
+    "description": "Model api",
+    "image": "heroku/python",
+    "repository": "github.com/mhpes/machine-learning-model",
+    "keywords": ["python", "flask" ],
+    "env": {
+      "SECRET_KEY": {
+        "description": "The secret key for the app.",
+        "generator": "secret"
+      }
+    },
+    "scripts": {
+      "start": "python SearchClassifier/MultinomialClassifier/api/api.py"
+    }
+}

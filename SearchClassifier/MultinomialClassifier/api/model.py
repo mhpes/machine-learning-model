@@ -6,8 +6,10 @@ import pandas as pd
 # from flask_csv import send_csv
 N_BATCHES = 67
 BATCH_SIZE = 100
+HEROKU_PATH = "SearchClassifier/MultinomialClassifier/api/"
 PATH_BIG_MODEL = 'models/model_big.pk1'
 PATH_MODELS = 'models/model_'
+
 PATH_MODELS_EXTENSION = '.pk1'
 PATH_VECTORIZER = 'models/countVectorizer.pickel'
 TMP_FILES = "tmp/"
@@ -31,7 +33,7 @@ def predict_csv(filename, data):
     index = BIG_MODEL.predict(X_dtm)
     model_predicts = []
     for i in range(N_BATCHES):
-        model_from_file = joblib.load('models/model_'+str(i)+'.pk1')
+        model_from_file = joblib.load(PATH_MODELS+str(i)+PATH_MODELS_EXTENSION)
         model_predicts.append(model_from_file.predict(X_dtm))
         porcentaje = (i+1) / N_BATCHES * 100
         print("progress: {:.2f}%".format(porcentaje))
@@ -40,13 +42,14 @@ def predict_csv(filename, data):
         result = model_predicts[int(index[i])][i]
         predicts.append(result)
     data["predict"] = predicts
+    print("Predicted", time.asctime())
     data.to_csv(TMP_FILES + filename, sep=";", index=False)
-    return TMP_FILES + filename
+    return filename
 
 def predict_product(product):
     product_dict = { "0" : product }
     product_serie = pd.Series(product_dict)
     product_dtm = VECT.transform(product_serie)
     index = BIG_MODEL.predict(product_dtm)
-    result = joblib.load('models/model_'+str(index[0])+'.pk1').predict(product_dtm)
+    result = joblib.load(PATH_MODELS+str(index[0])+PATH_MODELS_EXTENSION).predict(product_dtm)
     return str(result[0])
